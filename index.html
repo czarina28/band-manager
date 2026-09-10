@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#f5e8c8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+  <meta name="theme-color" content="#302c27">
   <title>Band Manager</title>
   <link rel="stylesheet" href="app.css">
 </head>
 <body>
   <main class="shell">
-    <header class="masthead">
+    <header id="masthead" class="masthead">
       <div class="issue">EST. FIVE MINUTES AGO</div>
       <h1>BAND<br>MANAGER</h1>
       <p>Keep four musicians together long enough to become famous.</p>
@@ -23,32 +23,26 @@
       <p class="fineprint">No musical ability required. Apparently.</p>
     </section>
 
-    <section id="game" class="hidden">
-      <section class="band-card paper">
-        <div class="band-heading">
-          <div>
-            <div class="kicker">CURRENTLY STILL TOGETHER</div>
-            <h2 id="band-title">SUPERMODEL</h2>
-          </div>
-          <div class="turn-stamp">WEEK <span id="week">1</span></div>
+    <section id="game" class="hidden game-screen">
+      <header class="game-header">
+        <div class="game-band">
+          <span id="band-title">SUPERMODEL</span>
+          <small>WEEK <span id="week">1</span></small>
         </div>
+        <button id="reset-btn" class="reset-button" aria-label="Start over">↻</button>
+      </header>
 
-        <div class="stats">
-          <div><span>£</span><strong id="cash">120</strong><small>CASH</small></div>
-          <div><strong id="fans">18</strong><small>FANS</small></div>
-          <div><strong id="rep">2</strong><small>REP</small></div>
-          <div><strong id="chaos">12</strong><small>CHAOS</small></div>
-        </div>
-
-        <div class="roster" id="roster"></div>
+      <section class="mini-stats">
+        <div><small>CASH</small><strong>£<span id="cash">120</span></strong></div>
+        <div><small>FANS</small><strong id="fans">18</strong></div>
+        <div><small>REP</small><strong id="rep">2</strong></div>
+        <div><small>CHAOS</small><strong id="chaos">12</strong></div>
       </section>
 
       <section id="event-card" class="paper event-card"></section>
 
-      <section class="footer-strip">
-        <span>GOAL: 1,000 FANS</span>
-        <button id="reset-btn" class="text-button">START OVER</button>
-      </section>
+      <section class="roster-strip" id="roster"></section>
+      <div class="goal">1,000 FANS = YOU'RE ACTUALLY A BAND</div>
     </section>
   </main>
 
