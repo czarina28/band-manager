@@ -1,180 +1,47 @@
-const $ = (id) => document.getElementById(id);
-
-const bassNames = ['Dave','Steve','Colin','Gary','Trevor','Nigel','Kev','Martin','Other Dave','Pete','Alan','Chris'];
-const venues = [
-  ['The Dog & Duck',45],['The Sticky Floor',70],['The Wheezing Ferret',95],
-  ['The Electric Ballroom',180],['The Municipal Hall',260],['The Majestic',500]
-];
-
+const $=id=>document.getElementById(id);
+const bassNames=['Dave','Steve','Colin','Gary','Trevor','Nigel','Kev','Martin','Other Dave','Pete','Alan','Chris'];
+const venues=[['Dog & Duck',45],['Sticky Floor',70],['Wheezing Ferret',95],['Electric Ballroom',180],['Municipal Hall',260],['Majestic',500]];
 let state;
 
-const events = [
-  {
-    icon:'🥁', label:'DRUMMER NEWS', title:'THE DRUMMER IS LATE.',
-    copy:'Soundcheck was at five. It is now 5:47. Mick says he is “literally around the corner.”',
-    choices:[
-      ['SOUNDCHECK WITHOUT HIM', {rep:2,chaos:3}, 'You soundchecked without a drummer. Oddly, nobody noticed.'],
-      ['WAIT FOR MICK', {rep:-1,chaos:5,fans:3}, 'Mick arrived at 6:32 carrying chips. He did not apologize.']
-    ]
-  },
-  {
-    icon:'🎸', label:'BAND MEETING', title:'LOU NEEDS A NEW AMP.',
-    copy:'The old amp works perfectly. This is apparently not relevant.',
-    choices:[
-      ['BUY THE STUPID AMP · £45', {cash:-45,rep:4,fans:8}, 'It is louder. Lou is radiant. Your bank account is not.'],
-      ['ABSOLUTELY NOT', {chaos:7}, 'Lou spends rehearsal explaining why you do not understand tone.']
-    ]
-  },
-  {
-    icon:'💔', label:'THIS SEEMS BAD', title:'THE GIRLFRIEND HAS AN OPINION.',
-    copy:'Lou’s new girlfriend has attended three rehearsals. She now thinks the band needs “a different direction.”',
-    choices:[
-      ['SMILE AND NOD', {chaos:4}, 'She has begun taking notes. This has not helped.'],
-      ['BAND MEMBERS ONLY', {rep:2,chaos:8}, 'Lou says you are threatened by her creativity. Nobody rehearses.']
-    ]
-  },
-  {
-    icon:'🎤', label:'CREATIVE DIFFERENCES', title:'JANE WANTS HER NAME BIGGER.',
-    copy:'On the poster. Not much bigger, she says. Just enough that people know who the important one is.',
-    choices:[
-      ['MAKE IT BIGGER', {fans:5,chaos:5}, 'Jane loves it. Everyone else has noticed.'],
-      ['SAME SIZE. EVERYONE.', {rep:3,chaos:4}, 'Democracy survives another week. Barely.']
-    ]
-  },
-  {
-    icon:'🚐', label:'ON THE ROAD', title:'THE VAN HAS STOPPED.',
-    copy:'You are 63 miles from the gig. Gary says he can fix it. Gary also said he could play bass.',
-    choices:[
-      ['LET GARY TRY', {cash:-8,chaos:5,rep:2}, 'Amazingly, Gary fixes it with a shoelace. This is why Gary is in the band.'],
-      ['CALL A GARAGE · £35', {cash:-35,chaos:-3}, 'You arrive on time. Nobody knows how to process this.']
-    ]
-  },
-  {
-    icon:'🍺', label:'AFTER THE GIG', title:'THE HOTEL HAS CALLED.',
-    copy:'They will not be welcoming the band back. The lamp is mentioned several times.',
-    choices:[
-      ['PAY FOR THE LAMP · £28', {cash:-28,rep:2}, 'The lamp was ugly anyway.'],
-      ['DENY EVERYTHING', {chaos:8,rep:5,fans:10}, 'Local legend status: improved. Hotel options: reduced.']
-    ]
-  },
-  {
-    icon:'🥁', label:'RARE EVENT', title:'MICK IS ON TIME.',
-    copy:'Everyone is uncomfortable. You check the clock twice.',
-    choices:[
-      ['SAY NOTHING', {chaos:-6,rep:3}, 'Rehearsal begins on time. It feels deeply unnatural.'],
-      ['ASK IF HE IS OKAY', {chaos:2}, 'He had the day wrong. Order has been restored.']
-    ]
-  },
-  {
-    icon:'✍️', label:'EMERGENCY MEETING', title:'THE DRUMMER HAS WRITTEN A SONG.',
-    copy:'Mick would like everyone to hear it. The band is looking at you.',
-    choices:[
-      ['HEAR HIM OUT', {fans:12,rep:4,chaos:6}, 'It is annoyingly good. Nobody mentions this to Mick.'],
-      ['ABSOLUTELY NOT', {chaos:3}, 'Mick says fine. Mick does not mean fine.']
-    ]
-  },
-  {
-    icon:'📰', label:'PRESS', title:'YOU HAVE BEEN CALLED “PROMISING.”',
-    copy:'The band has spent two hours debating whether this is an insult.',
-    choices:[
-      ['FRAME THE REVIEW', {rep:5,fans:10}, 'Your first press clipping! Even Lou stops complaining for eleven minutes.'],
-      ['CALL THEM COWARDS', {rep:3,chaos:7,fans:5}, 'The follow-up article calls you “difficult.” Much better.']
-    ]
-  },
-  {
-    icon:'🎵', label:'BAD NEWS / GOOD NEWS', title:'THE STUPID SONG IS A HIT.',
-    copy:'The song everyone hated is the only one audiences remember. They shout for it twice.',
-    choices:[
-      ['PLAY IT AGAIN', {fans:28,rep:6,chaos:3}, 'You hate yourselves. The crowd adores you.'],
-      ['WE HAVE OTHER SONGS', {fans:-3,rep:3,chaos:8}, 'The crowd chants the stupid song through the encore.']
-    ]
-  },
-  {
-    icon:'🎸', label:'PERSONNEL', title:'THE BASS PLAYER HAS QUIT.',
-    copy:'He is joining a jazz-fusion group. Nobody is entirely sure which bass player this was.',
-    bassist:true,
-    choices:[
-      ['FIND ANOTHER ONE', {chaos:2}, 'Done. That was surprisingly easy.'],
-      ['BEG HIM TO STAY', {chaos:5}, 'He changes his mind. Then quits again on Thursday. You find another one.']
-    ]
-  }
+const events=[
+{icon:'🥁',label:'DRUMMER NEWS',title:'MICK IS LATE.',copy:'Soundcheck was at five. It is 5:47. Mick is “literally around the corner.”',choices:[['START WITHOUT HIM',{rep:2,chaos:3,mick:1},'Nobody noticed. Mick did.'],['WAIT FOR MICK',{rep:-1,chaos:5,mick:-1},'He arrives with chips. No apology.']]},
+{icon:'🎸',label:'BAND MEETING',title:'LOU NEEDS A NEW AMP.',copy:'The old amp works perfectly. Lou says that is not the point.',choices:[['BUY IT · £45',{cash:-45,rep:4,lou:-1},'Lou is radiant. You are £45 poorer.'],['NO',{chaos:7,lou:1},'Lou says you do not understand tone.']]},
+{icon:'💔',label:'THIS SEEMS BAD',title:'THE GIRLFRIEND HAS AN OPINION.',copy:'Lou’s girlfriend now attends rehearsal and thinks the band needs “direction.”',choices:[['SMILE AND NOD',{chaos:4,jane:1},'Jane has stopped speaking to Lou.'],['BAND MEMBERS ONLY',{rep:2,chaos:7,lou:1},'Lou has stopped speaking to you.']]},
+{icon:'🎤',label:'IMAGE CRISIS',title:'JANE WANTS HER NAME BIGGER.',copy:'On the flyer. Just enough that people know who the important one is.',choices:[['MAKE IT BIGGER',{fans:5,chaos:5,jane:-1,lou:1},'Jane loves it. Lou has measured it.'],['SAME SIZE. EVERYONE.',{rep:3,chaos:4,jane:1},'Jane calls this “very democratic.”']]},
+{icon:'🌐',label:'IMAGE CRISIS',title:'THE BAND NEEDS A WEBSITE.',copy:'Jane wants black and white. Lou wants flames. Mick bought a terrible domain.',choices:[['LET JANE DESIGN IT',{rep:5,fans:8,jane:-1,lou:1},'It looks great. Lou says it has no energy.'],['TAKE THE DOMAIN FROM MICK',{rep:2,chaos:4,mick:1},'Mick had already printed 200 stickers.']]},
+{icon:'📄',label:'IMAGE CRISIS',title:'THE FLYERS ARE READY.',copy:'Lou’s photo is noticeably larger. He says this happened automatically.',choices:[['PRINT THEM',{fans:12,chaos:5,lou:-1,jane:1},'Jane has found a ruler.'],['MAKE LOU SMALLER',{rep:3,chaos:6,lou:2},'Lou has also found a ruler.']]},
+{icon:'📸',label:'IMAGE CRISIS',title:'BAND PHOTO DAY.',copy:'Nobody agrees where to stand. Mick is wearing shorts.',choices:[['TAKE THE PHOTO',{fans:8,rep:3,chaos:4},'It is somehow your best photo.'],['SEND MICK HOME',{rep:4,chaos:5,mick:2},'The photo looks serious. Mick is wounded.']]},
+{icon:'☠️',label:'IMAGE CRISIS',title:'YOU NEED A LOGO.',copy:'Jane wants minimal. Lou drew a skull. Mick drew a different, worse skull.',choices:[['JANE’S',{rep:5,jane:-1,lou:1,mick:1},'Clean. Elegant. Two people are furious.'],['MICK’S WORSE SKULL',{fans:10,chaos:8,mick:-2,jane:1},'People inexplicably love it.']]},
+{icon:'💻',label:'THE INTERNET',title:'THE GUESTBOOK HAS ONE ENTRY.',copy:'“you suck” — Lou is certain it was the support band.',choices:[['DELETE IT',{chaos:2,lou:1},'Lou says you are hiding the truth.'],['REPLY “NO YOU SUCK”',{fans:6,rep:-1,chaos:6,lou:-1},'The band checks for a reply all week.']]},
+{icon:'🎸',label:'CREATIVE DIFFERENCES',title:'LOU WANTS A LONGER SOLO.',copy:'Jane says the song is three minutes long. Lou says that is exactly the problem.',choices:[['LET LOU HAVE IT',{fans:5,chaos:4,lou:-2,jane:1},'The solo is now 47% of the song.'],['BACK JANE',{rep:3,chaos:5,lou:2,jane:-1},'Lou plays it longer live anyway.']]},
+{icon:'🎹',label:'REHEARSAL',title:'JANE CHANGED THE KEY.',copy:'Nobody can play it in the new key. Jane says it “feels better.”',choices:[['CHANGE IT BACK',{rep:2,jane:2,chaos:4},'Jane sings the old key sarcastically.'],['LEARN THE NEW KEY',{rep:4,chaos:3,jane:-1,lou:1},'Lou says the old key was better.']]},
+{icon:'🎼',label:'REHEARSAL',title:'THE BASS PART IS WRONG.',copy:'Lou says the bassist keeps missing the change. The bassist says there is no change.',choices:[['LOU IS RIGHT',{rep:2,chaos:4,lou:-1},'There was a change. Nobody told the bassist.'],['BASS PLAYER IS RIGHT',{chaos:6,lou:2},'There was a change. There is also a new bassist.']]},
+{icon:'📰',label:'PRESS',title:'THE REVIEW MENTIONS LOU.',copy:'It calls his guitar playing “inventive.” Jane has read this sentence six times.',choices:[['CONGRATULATE LOU',{rep:5,lou:-1,jane:2},'Lou cuts it out. Jane remembers everything.'],['PRAISE THE WHOLE BAND',{rep:3,lou:1,jane:-1},'Lou says that was not what the review said.']]},
+{icon:'🎤',label:'FEELINGS',title:'JANE DIDN’T GET THE SOLO.',copy:'She says she is fine. She has said “I’m fine” nine times.',choices:[['GIVE HER THE NEXT ONE',{chaos:3,jane:-2,lou:1},'Jane is fine now. Lou is not.'],['DO NOT ENGAGE',{rep:2,chaos:5,jane:2},'Excellent. Now she is really fine.']]},
+{icon:'🥁',label:'EMERGENCY MEETING',title:'MICK WROTE A SONG.',copy:'Mick wants everyone to hear it. The band is looking at you.',choices:[['HEAR HIM OUT',{fans:12,rep:4,chaos:5,mick:-2},'It is annoyingly good.'],['ABSOLUTELY NOT',{chaos:4,mick:2},'Mick says fine. Mick does not mean fine.']]},
+{icon:'🥁',label:'RARE EVENT',title:'MICK IS ON TIME.',copy:'Everyone is uncomfortable. You check the clock twice.',choices:[['SAY NOTHING',{chaos:-6,rep:3,mick:-1},'Rehearsal starts on time. Horrible.'],['ASK IF HE IS OKAY',{chaos:2,mick:1},'He had the day wrong.']]},
+{icon:'🎵',label:'BAD NEWS / GOOD NEWS',title:'THE STUPID SONG IS A HIT.',copy:'The song everyone hated is the only one audiences remember.',choices:[['PLAY IT AGAIN',{fans:28,rep:6,chaos:3},'You hate yourselves. They adore you.'],['WE HAVE OTHER SONGS',{fans:-3,rep:3,chaos:8},'They chant for the stupid song.']]},
+{icon:'🎸',label:'PERSONNEL',title:'THE BASS PLAYER QUIT.',copy:'Jazz-fusion. Nobody is entirely sure which bass player this was.',bassist:true,choices:[['FIND ANOTHER ONE',{chaos:2},'Done. Surprisingly easy.'],['BEG HIM TO STAY',{chaos:5},'He stays. Then quits Thursday.']]}
 ];
 
-function newState(name){
-  return {name:name.toUpperCase() || 'SUPERMODEL',week:1,cash:120,fans:18,rep:2,chaos:12,bass:bassNames[0],eventIndex:-1,history:[],phase:'event'};
-}
-
-function save(){ localStorage.setItem('bandManagerSave',JSON.stringify(state)); }
-function clamp(){ state.cash=Math.max(0,state.cash); state.fans=Math.max(0,state.fans); state.rep=Math.max(0,state.rep); state.chaos=Math.max(0,state.chaos); }
-function random(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+function newState(name){return{name:name.toUpperCase()||'SUPERMODEL',week:1,cash:120,fans:18,rep:2,chaos:12,bass:'Dave',jane:0,lou:0,mick:0,eventIndex:-1};}
+function save(){localStorage.setItem('bandManagerSaveV2',JSON.stringify(state));}
+function random(a){return a[Math.floor(Math.random()*a.length)];}
+function clamp(){['cash','fans','rep','chaos'].forEach(k=>state[k]=Math.max(0,state[k]));['jane','lou','mick'].forEach(k=>state[k]=Math.max(0,Math.min(2,state[k])));}
+function mood(n){return n>=2?'furious':n===1?'annoyed':'fine';}
+function face(n){return n>=2?'●':n===1?'•':'';}
 
 function renderStats(){
-  $('band-title').textContent=state.name; $('week').textContent=state.week; $('cash').textContent=state.cash;
-  $('fans').textContent=state.fans; $('rep').textContent=state.rep; $('chaos').textContent=state.chaos;
-  $('roster').innerHTML=`
-    <div class="member"><strong>🎤 Jane</strong><small>VOCALS · DRAMA</small></div>
-    <div class="member"><strong>🎸 Lou</strong><small>GUITAR · OPINIONS</small></div>
-    <div class="member"><strong>🥁 Mick</strong><small>DRUMS · WHEREABOUTS UNKNOWN</small></div>
-    <div class="member bassist"><strong>🎸 ${state.bass}</strong><small>BASS · FOR NOW</small></div>`;
+ $('band-title').textContent=state.name;$('week').textContent=state.week;$('cash').textContent=state.cash;$('fans').textContent=state.fans;$('rep').textContent=state.rep;$('chaos').textContent=state.chaos;
+ $('roster').innerHTML=`<div class="member mood-${mood(state.jane)}"><strong>🎤 JANE <span class="mood-dot">${face(state.jane)}</span></strong><small>${state.jane>=2?'FURIOUS':state.jane===1?'ANNOYED':'VOCALS'}</small></div><div class="member mood-${mood(state.lou)}"><strong>🎸 LOU <span class="mood-dot">${face(state.lou)}</span></strong><small>${state.lou>=2?'FURIOUS':state.lou===1?'ANNOYED':'GUITAR'}</small></div><div class="member mood-${mood(state.mick)}"><strong>🥁 MICK <span class="mood-dot">${face(state.mick)}</span></strong><small>${state.mick>=2?'FURIOUS':state.mick===1?'ANNOYED':'DRUMS'}</small></div><div class="member bassist"><strong>🎸 ${state.bass}</strong><small>BASS · FOR NOW</small></div>`;
 }
-
-function nextEvent(){
-  if(state.fans>=1000){ showWin(); return; }
-  state.week++;
-  if(Math.random()<0.22 && state.week>2){ state.bass=random(bassNames.filter(n=>n!==state.bass)); }
-  let idx;
-  do { idx=Math.floor(Math.random()*events.length); } while(idx===state.eventIndex && events.length>1);
-  state.eventIndex=idx; state.phase='event'; save(); render();
-}
-
-function showEvent(){
-  const e=events[state.eventIndex<0?0:state.eventIndex];
-  $('event-card').className='paper event-card';
-  $('event-card').innerHTML=`<div class="event-icon">${e.icon}</div><div class="event-label">${e.label}</div><div class="event-title">${e.title}</div><p class="event-copy">${e.copy}</p><div class="choices">${e.choices.map((c,i)=>`<button class="choice" data-choice="${i}">${c[0]}</button>`).join('')}</div>`;
-  document.querySelectorAll('[data-choice]').forEach(b=>b.onclick=()=>resolveChoice(Number(b.dataset.choice)));
-}
-
-function resolveChoice(i){
-  const e=events[state.eventIndex<0?0:state.eventIndex], c=e.choices[i], effects=c[1];
-  Object.entries(effects).forEach(([k,v])=>state[k]+=v);
-  if(e.bassist) state.bass=random(bassNames.filter(n=>n!==state.bass));
-  clamp();
-  const changes=Object.entries(effects).map(([k,v])=>`${v>0?'+':''}${v} ${k==='cash'?'£ cash':k}`).join(' · ');
-  state.phase='result'; save(); renderStats();
-  $('event-card').innerHTML=`<div class="event-icon">${e.icon}</div><div class="event-label">AND THEN...</div><div class="event-title">${c[2]}</div><div class="result"><strong>${changes.toUpperCase()}</strong></div><button id="gig-btn" class="big-button continue">BOOK THE NEXT GIG →</button>`;
-  $('gig-btn').onclick=playGig;
-}
-
-function playGig(){
-  const venue=venues[Math.min(venues.length-1,Math.floor(state.rep/8))];
-  const capacity=venue[1];
-  const turnout=Math.max(8,Math.min(capacity,Math.round(state.fans*(0.22+Math.random()*.32)+state.rep*3)));
-  const money=Math.max(12,Math.round(turnout*(.45+Math.random()*.35)));
-  const newFans=Math.max(4,Math.round(turnout*(.12+Math.random()*.18)));
-  state.cash+=money; state.fans+=newFans; state.rep+=turnout===capacity?4:2; clamp(); state.phase='gig'; save(); renderStats();
-  const sold=turnout===capacity;
-  $('event-card').innerHTML=`<div class="event-icon">🎟️</div><div class="event-label">TONIGHT</div><div class="event-title">${venue[0]}</div><p class="event-copy">${sold?'SOLD OUT. Somehow.':`${turnout} PEOPLE SHOWED UP.`}<br><br><strong>+£${money} · +${newFans} FANS</strong></p><button id="continue-btn" class="big-button continue">SURVIVE ANOTHER WEEK →</button>`;
-  $('continue-btn').onclick=nextEvent;
-}
-
-function showWin(){
-  $('event-card').className='paper event-card win';
-  $('event-card').innerHTML=`<div class="event-icon">★</div><div class="event-label">GOOD LORD</div><div class="event-title">YOU'RE ACTUALLY A BAND NOW.</div><p class="event-copy">${state.name} has passed 1,000 fans without permanently breaking up.<br><br>This is frankly astonishing.</p><button id="again-btn" class="big-button">DO IT ALL AGAIN</button>`;
-  $('again-btn').onclick=reset;
-}
-
-function render(){
-  $('setup').classList.add('hidden'); $('game').classList.remove('hidden'); renderStats();
-  if(state.fans>=1000){showWin();return;}
-  if(state.eventIndex<0) state.eventIndex=0;
-  showEvent();
-}
-
-function start(){ state=newState($('band-name').value.trim()); save(); render(); }
-function reset(){ localStorage.removeItem('bandManagerSave'); location.reload(); }
-
-$('start-btn').onclick=start; $('reset-btn').onclick=reset;
-$('band-name').addEventListener('keydown',e=>{if(e.key==='Enter')start();});
-
-const saved=localStorage.getItem('bandManagerSave');
-if(saved){ try{state=JSON.parse(saved);render();}catch(e){localStorage.removeItem('bandManagerSave');} }
+function nextEvent(){if(state.fans>=1000){showWin();return;}state.week++;if(Math.random()<.2&&state.week>2)state.bass=random(bassNames.filter(n=>n!==state.bass));let i;do{i=Math.floor(Math.random()*events.length)}while(i===state.eventIndex);state.eventIndex=i;save();render();}
+function showEvent(){const e=events[state.eventIndex<0?0:state.eventIndex];$('event-card').className='paper event-card';$('event-card').innerHTML=`<div class="event-icon">${e.icon}</div><div class="event-label">${e.label}</div><div class="event-title">${e.title}</div><p class="event-copy">${e.copy}</p><div class="choices">${e.choices.map((c,i)=>`<button class="choice" data-choice="${i}">${c[0]}</button>`).join('')}</div>`;document.querySelectorAll('[data-choice]').forEach(b=>b.onclick=()=>resolveChoice(+b.dataset.choice));}
+function resolveChoice(i){const e=events[state.eventIndex<0?0:state.eventIndex],c=e.choices[i],effects=c[1];Object.entries(effects).forEach(([k,v])=>state[k]=(state[k]||0)+v);if(e.bassist)state.bass=random(bassNames.filter(n=>n!==state.bass));clamp();const visible=Object.entries(effects).filter(([k])=>['cash','fans','rep','chaos'].includes(k)).map(([k,v])=>`${v>0?'+':''}${v} ${k==='cash'?'£ CASH':k.toUpperCase()}`).join(' · ');save();renderStats();$('event-card').innerHTML=`<div class="event-icon">${e.icon}</div><div class="event-label">AND THEN...</div><div class="event-title">${c[2]}</div>${visible?`<div class="result"><strong>${visible}</strong></div>`:''}<button id="gig-btn" class="big-button continue">PLAY THE GIG →</button>`;$('gig-btn').onclick=playGig;}
+function playGig(){const venue=venues[Math.min(venues.length-1,Math.floor(state.rep/8))],cap=venue[1],turnout=Math.max(8,Math.min(cap,Math.round(state.fans*(.22+Math.random()*.32)+state.rep*3))),money=Math.max(12,Math.round(turnout*(.45+Math.random()*.35))),newFans=Math.max(4,Math.round(turnout*(.12+Math.random()*.18)));state.cash+=money;state.fans+=newFans;state.rep+=turnout===cap?4:2;clamp();save();renderStats();$('event-card').innerHTML=`<div class="event-icon">🎟️</div><div class="event-label">TONIGHT · ${venue[0].toUpperCase()}</div><div class="event-title">${turnout===cap?'SOLD OUT. SOMEHOW.':`${turnout} PEOPLE SHOWED UP.`}</div><div class="result"><strong>+£${money} · +${newFans} FANS</strong></div><button id="continue-btn" class="big-button continue">NEXT WEEK →</button>`;$('continue-btn').onclick=nextEvent;}
+function showWin(){$('event-card').className='paper event-card win';$('event-card').innerHTML=`<div class="event-icon">★</div><div class="event-label">GOOD LORD</div><div class="event-title">YOU'RE ACTUALLY A BAND NOW.</div><p class="event-copy">1,000 fans. Nobody permanently left.<br><br>Frankly astonishing.</p><button id="again-btn" class="big-button">DO IT AGAIN</button>`;$('again-btn').onclick=reset;}
+function render(){$('masthead').classList.add('hidden');$('setup').classList.add('hidden');$('game').classList.remove('hidden');renderStats();if(state.fans>=1000)return showWin();if(state.eventIndex<0)state.eventIndex=0;showEvent();}
+function start(){state=newState($('band-name').value.trim());save();render();}
+function reset(){localStorage.removeItem('bandManagerSaveV2');localStorage.removeItem('bandManagerSave');location.reload();}
+$('start-btn').onclick=start;$('reset-btn').onclick=reset;$('band-name').addEventListener('keydown',e=>{if(e.key==='Enter')start();});
+const saved=localStorage.getItem('bandManagerSaveV2');if(saved){try{state=JSON.parse(saved);render()}catch(e){localStorage.removeItem('bandManagerSaveV2')}}
