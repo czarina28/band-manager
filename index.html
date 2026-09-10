@@ -3,49 +3,38 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
-  <meta name="theme-color" content="#302c27">
+  <meta name="theme-color" content="#ef4d3f">
   <title>Band Manager</title>
   <link rel="stylesheet" href="app.css">
 </head>
 <body>
   <main class="shell">
     <header id="masthead" class="masthead">
-      <div class="issue">EST. FIVE MINUTES AGO</div>
+      <div class="issue">A VERY SMALL MUSIC BUSINESS DISASTER</div>
       <h1>BAND<br>MANAGER</h1>
-      <p>Keep four musicians together long enough to become famous.</p>
+      <p>Get your band up the bill without destroying them.</p>
     </header>
 
     <section id="setup" class="paper setup">
-      <div class="kicker">FORM A BAND</div>
-      <label for="band-name">What are these idiots called?</label>
+      <div class="kicker">YOU HAVE A BAND</div>
+      <label for="band-name">Unfortunately, what are they called?</label>
       <input id="band-name" maxlength="24" value="SUPERMODEL" autocomplete="off">
-      <button id="start-btn" class="big-button">START THE BAND →</button>
-      <p class="fineprint">No musical ability required. Apparently.</p>
+      <button id="start-btn" class="big-button">SEE THE FESTIVAL BILL →</button>
     </section>
 
     <section id="game" class="hidden game-screen">
       <header class="game-header">
-        <div class="game-band">
-          <span id="band-title">SUPERMODEL</span>
-          <small>WEEK <span id="week">1</span></small>
-        </div>
+        <div class="game-band"><span id="band-title">SUPERMODEL</span><small> · <span id="turn">1</span>/18</small></div>
         <button id="reset-btn" class="reset-button" aria-label="Start over">↻</button>
       </header>
-
       <section class="mini-stats">
         <div><small>CASH</small><strong>£<span id="cash">120</span></strong></div>
-        <div><small>FANS</small><strong id="fans">18</strong></div>
         <div><small>REP</small><strong id="rep">2</strong></div>
         <div><small>CHAOS</small><strong id="chaos">12</strong></div>
       </section>
-
-      <section id="event-card" class="paper event-card"></section>
-
-      <section class="roster-strip" id="roster"></section>
-      <div class="goal">1,000 FANS = YOU'RE ACTUALLY A BAND</div>
+      <section id="event-card" class="event-card"></section>
     </section>
   </main>
-
   <script src="app.js"></script>
 </body>
 </html>
