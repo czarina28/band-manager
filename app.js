@@ -24,7 +24,7 @@ const events=[
 {label:'FESTIVAL OFFICE',title:'THE BOOKER IS WATCHING.',copy:'They saw your last show. They also saw what happened afterwards.',choices:[['BE PROFESSIONAL',{rep:4,chaos:-3,move:2},'For one entire evening, everyone behaves.'],['BE MEMORABLE',{rep:6,chaos:9,move:3},'Oh, they remember you.']]}
 ];
 let state;
-function newState(name){return{name:(name||'SUPERMODEL').toUpperCase(),turn:1,cash:120,rep:2,chaos:12,rank:68,lastEvent:-1,relations:{static:0,dentists:0,velvet:0}}}
+function newState(name){const startingRank=55+Math.floor(Math.random()*31);return{name:(name||'SUPERMODEL').toUpperCase(),turn:1,cash:120,rep:2,chaos:12,rank:startingRank,lastEvent:-1,relations:{static:0,dentists:0,velvet:0}}}
 function save(){localStorage.setItem('bandManagerSaveV8',JSON.stringify(state))}
 function clamp(){state.cash=Math.max(0,state.cash);state.rep=Math.max(0,state.rep);state.chaos=Math.max(0,state.chaos);state.rank=Math.max(1,Math.min(100,state.rank))}
 function renderStats(){$('band-title').textContent=state.name;$('turn').textContent=state.turn;$('cash').textContent=state.cash;$('rep').textContent=state.rep;$('chaos').textContent=state.chaos}
